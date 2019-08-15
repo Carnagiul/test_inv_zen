@@ -1,0 +1,9 @@
+name: zenTestInv
+description: testInv de zen
+main: test.Main
+version: 1.0
+author: "test Inv Zen"
+authors: []
+
+awareness:
+  - !@UTF8
