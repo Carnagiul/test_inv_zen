@@ -12,12 +12,11 @@ public class ZenGive extends ZenInv {
 		
 	public ZenGive(Main m)
 	{
-		//cc
 		super("Give Manager", Material.REDSTONE_TORCH_ON, m);
-		this.addItem(new ItemStack(Material.DIAMOND), 2 * 9 + 1, "diamond");
-		this.addItem(new ItemStack(Material.GOLD_INGOT), 2 * 9 + 2, "gold");	
+		this.addItemWithPerm(new ItemStack(Material.DIAMOND), 2 * 9 + 1, "diamond", "zen.game.manager.give.diamond");	
+		this.addItemWithPerm(new ItemStack(Material.GOLD_INGOT), 2 * 9 + 2, "gold", "zen.game.manager.give.gold");	
 	}
-	
+
 	public boolean doDiamond(Player p)
 	{
 		Bukkit.getLogger().info("DU DIAMS OMG");

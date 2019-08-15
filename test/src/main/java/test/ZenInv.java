@@ -33,6 +33,9 @@ public class ZenInv {
 	
 	private HashMap<ItemStack, String>	invoke = new HashMap<ItemStack, String>();
 	private HashMap<ItemStack, Sound>	invokeSound = new HashMap<ItemStack, Sound>();
+	private HashMap<ItemStack, String>	invokePermission = new HashMap<ItemStack, String>();
+	
+	
 	private Main			plugin;
 	
 	
@@ -55,6 +58,19 @@ public class ZenInv {
 		this.getInv().setItem(position, item);
 		this.getInvoke().put(item, invoke);
 		this.getInvokeSound().put(item, sound);
+	}
+	
+	public void addItem(ItemStack item, int position, String invoke, Sound sound, String perm)
+	{
+		this.getInv().setItem(position, item);
+		this.getInvoke().put(item, invoke);
+		this.getInvokeSound().put(item, sound);
+		this.getInvokePermission().put(item, perm);
+	}
+	
+	public void addItemWithPerm(ItemStack item, int position, String invoke, String perm) {
+		this.addItem(item, position, invoke);
+		this.getInvokePermission().put(item, perm);
 	}
 	
 	public void initNext(ItemStack item, String next)
@@ -102,6 +118,12 @@ public class ZenInv {
 		return true;
 	}
 	
+	public boolean doError(Player p)
+	{
+		p.sendMessage("Vous ne possedez pas la permission pour effectuer cette action...");
+		return false;
+	}
+	
 	public boolean hud(ItemStack item, Player p)
 	{
 		if (this.getInvoke().containsKey(item) && this.getInv().contains(item))
@@ -112,6 +134,18 @@ public class ZenInv {
 			    for (Method method : methods) {
 			        // Test any other things about it beyond the name...
 			        if (method.getName().equals("do" + WordUtils.capitalize(this.getInvoke().get(item))))
+			        {
+			        	boolean perm_ok = false;
+			        	if (this.getInvokePermission().containsKey(item)) {
+			        		if (p.hasPermission(this.getInvokePermission().get(item)))
+			        			perm_ok = true;
+			        		else
+			        			perm_ok = false;
+			        	}
+			        	else
+			        		perm_ok = true;
+			        	if (perm_ok == false)
+			        		return this.doError(p);
 						try {
 							if (this.getInvokeSound().containsKey(item))
 								p.playSound(p.getLocation(), this.getInvokeSound().get(item), 1, 1);
@@ -126,8 +160,21 @@ public class ZenInv {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+			        }
 			        // Test any other things about it beyond the name...
 			        if (method.getName().equals("exec" + WordUtils.capitalize(this.getInvoke().get(item))))
+			        {
+			        	boolean perm_ok = false;
+			        	if (this.getInvokePermission().containsKey(item)) {
+			        		if (p.hasPermission(this.getInvokePermission().get(item)))
+			        			perm_ok = true;
+			        		else
+			        			perm_ok = false;
+			        	}
+			        	else
+			        		perm_ok = true;
+			        	if (perm_ok == false)
+			        		return this.doError(p);
 						try {
 							if (this.getInvokeSound().containsKey(item))
 								p.playSound(p.getLocation(), this.getInvokeSound().get(item), 1, 1);
@@ -142,6 +189,7 @@ public class ZenInv {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+			        }
 			    }
 			    clazz = clazz.getSuperclass();
 			}
@@ -287,5 +335,13 @@ public class ZenInv {
 
 	public void setInvokeSound(HashMap<ItemStack, Sound> invokeSound) {
 		this.invokeSound = invokeSound;
+	}
+
+	public HashMap<ItemStack, String> getInvokePermission() {
+		return invokePermission;
+	}
+
+	public void setInvokePermission(HashMap<ItemStack, String> invokePermission) {
+		this.invokePermission = invokePermission;
 	}
 }
