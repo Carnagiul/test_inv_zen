@@ -6,6 +6,8 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.InventoryView;
 
+import give.ZenAmountGive;
+import give.ZenGivePlayerList;
 import inventory.ZenAdmin;
 import inventory.ZenAdmin_2;
 import inventory.ZenAdmin_3;
@@ -23,13 +25,18 @@ public class ZenInvManager{
 	public ZenInvManager(Main m)
 	{
 		this.setPlugin(m);
+	}
+	
+	public void load()
+	{
 		this.inventorys.add(new zenInvTimes(this.getPlugin()));
 		this.inventorys.add(new ZenGive(this.getPlugin()));
 		this.inventorys.add(new ZenAdmin(this.getPlugin()));
 		this.inventorys.add(new ZenAdmin_2(this.getPlugin()));
 		this.inventorys.add(new ZenAdmin_3(this.getPlugin()));
 		this.inventorys.add(new ZenPlayerList(this.getPlugin()));
-		
+		this.inventorys.add(new ZenAmountGive(this.getPlugin(), "Gold", Material.GOLD_INGOT));
+		this.inventorys.add(new ZenGivePlayerList(this.getPlugin(), "Gold", Material.GOLD_INGOT));
 		this.setTimer(new ZenInvManagerTimers(this.getPlugin()));
 		this.getTimer().start();
 	}

@@ -2,10 +2,13 @@ package test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -77,14 +80,21 @@ public class ZenInv {
 	{
 		this.setNext(next);
 		ItemStack nxt = item.clone();
-		this.addItem(nxt, (row - 2) * 9 + 6, "next", next_sound);
+		ItemMeta meta = nxt.getItemMeta();
+		meta.setDisplayName("Page suivante");
+		nxt.setItemMeta(meta);
+		this.addItem(nxt, (row - 1) * 9 + 8, "next", next_sound);
 	}
 	
 	public void initPrev(ItemStack item, String prev)
 	{
 		this.setPrevious(prev);
 		ItemStack prv = item.clone();
-		this.addItem(prv, (row - 2) * 9 + 2, "previous", previous_sound);
+		ItemMeta meta = prv.getItemMeta();
+		meta.setDisplayName("Page d'avant");
+		prv.setItemMeta(meta);
+		
+		this.addItem(prv, (row - 1) * 9, "previous", previous_sound);
 
 	}
 	
@@ -161,8 +171,7 @@ public class ZenInv {
 							e.printStackTrace();
 						}
 			        }
-			        // Test any other things about it beyond the name...
-			        if (method.getName().equals("exec" + WordUtils.capitalize(this.getInvoke().get(item))))
+			        else if (method.getName().equals("exec" + WordUtils.capitalize(this.getInvoke().get(item))))
 			        {
 			        	boolean perm_ok = false;
 			        	if (this.getInvokePermission().containsKey(item)) {
@@ -193,6 +202,11 @@ public class ZenInv {
 			    }
 			    clazz = clazz.getSuperclass();
 			}
+			Bukkit.getLogger().info("Method not Found");
+		}
+		else
+		{
+			Bukkit.getLogger().info("Item not found");
 		}
 		return false;
 	}
@@ -208,7 +222,11 @@ public class ZenInv {
 					if (color_id > max_color_id)
 						color_id = 0;
 					ItemMeta meta = item.getItemMeta();
-					meta.setDisplayName("Beautifull");
+					meta.setDisplayName("ZenGames.fr");
+					List<String> Lore = new ArrayList<String>();
+					Lore.add(ChatColor.GOLD + "IP : "+ChatColor.GRAY+"zengames.fr");
+					Lore.add(ChatColor.GOLD + "Mumble : "+ChatColor.GRAY+"mumble.zengames.fr:64738");
+					meta.setLore(Lore);
 					item.setItemMeta(meta);
 					if (i.getType().equals(item.getType()))
 					{
@@ -226,7 +244,11 @@ public class ZenInv {
 		if (color_id > max_color_id)
 			color_id = 0;
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName("Beautifull");
+		meta.setDisplayName("ZenGames.fr");
+		List<String> Lore = new ArrayList<String>();
+		Lore.add(ChatColor.GOLD + "IP : "+ChatColor.GRAY+"zengames.fr");
+		Lore.add(ChatColor.GOLD + "Mumble : "+ChatColor.GRAY+"mumble.zengames.fr:64738");
+		meta.setLore(Lore);
 		item.setItemMeta(meta);
 		for (int i = 0; i < size; i++)
 		{
@@ -237,18 +259,18 @@ public class ZenInv {
 			if (i % 9 == 0)
 				inv.setItem(i, item);
 			if (i % 9 == 8)
-				inv.setItem(i, item);
+				inv.setItem(i, item);/*
 			if (i == (9 * 1 + 1) || i == (9 * 1 + 7))
 				inv.setItem(i, item);
 			if (i == (9 * (row - 2) + 1) || i == (9 * (row - 2) + 7))
-				inv.setItem(i, item);
+				inv.setItem(i, item);*/
 		}
 		
 		ItemStack close = new ItemStack(getClose());
 		meta = close.getItemMeta();
 		meta.setDisplayName("Fermer le menu");
 		close.setItemMeta(meta);
-		inv.setItem((row - 2) * 9 + 4, close);
+		inv.setItem((row - 1) * 9 + 4, close);
 	}
 	
 	private void createInv(Inventory createInventory) {

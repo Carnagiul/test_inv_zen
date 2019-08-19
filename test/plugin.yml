@@ -7,3 +7,9 @@ authors: []
 
 awareness:
   - !@UTF8
+
+
+commands:
+   zen:
+      description: ZenCommands My
+      usage: /zen <SubCommand> <Args>

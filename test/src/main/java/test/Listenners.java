@@ -48,7 +48,28 @@ public class Listenners implements Listener
 		ZenInv inv = this.getMain().getZenInvManager().getZenInv(item.getType());
 		if (inv != null)
 		{
-			p.openInventory(inv.getInv());
+			if (p.getOpenInventory().getType() != this.getMain().getZenInvManager().getInventorys().get(0).getInv().getType())
+				p.openInventory(inv.getInv());
+			else
+			{
+				if (this.getMain().getZenInvManager().isZenInv(p.getOpenInventory()))
+				{
+					ZenInv invName = this.getMain().getZenInvManager().getZenInv(p.getOpenInventory().getTitle());
+
+					if (ZenInv.close.equals(item.getType()))
+					{
+						p.closeInventory();
+						p.playSound(p.getLocation(), ZenInv.close_sound, 1, 1);
+					}
+					else if (invName != null)
+					{					
+						if (invName.hud(item, p))
+						{
+							p.closeInventory();
+						}
+					}
+				}
+			}
 		}
 		else if (p.getOpenInventory() != null)
 		{

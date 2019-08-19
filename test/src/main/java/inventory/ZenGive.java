@@ -26,8 +26,9 @@ public class ZenGive extends ZenInv {
 	
 	public boolean doGold(Player p)
 	{
-		Bukkit.getLogger().info("DU GOLD OMG");
-		Bukkit.broadcastMessage("DU GOLD OMG");
-		return true;
+		ZenInv inv = this.getPlugin().getZenInvManager().getZenInv("Give Gold Amount");
+		if (inv != null)
+			p.openInventory(inv.getInv());
+		return false;
 	}
 }
